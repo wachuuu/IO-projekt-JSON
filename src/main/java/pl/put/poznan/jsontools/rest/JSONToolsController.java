@@ -16,26 +16,26 @@ public class JSONToolsController {
     private static final Logger logger = LoggerFactory.getLogger(JSONToolsController.class);
 
     @GetMapping("/minify")
-    public ResponseEntity<String> minifyJSON(@RequestBody Map<String, Object> json) {
+    public ResponseEntity<Map<String, Object>> minifyJSON(@RequestBody Map<String, Object> json) {
         logger.debug("Minified: "+json.toString());
 
-        return new ResponseEntity<>("Minified JSON", HttpStatus.OK);
+        return new ResponseEntity<>(json, HttpStatus.OK);
     }
 
     @GetMapping("/beautify")
-    public ResponseEntity<String> beautifyJSON(@RequestBody Map<String, Object> json) {
+    public ResponseEntity<Map<String, Object>> beautifyJSON(@RequestBody Map<String, Object> json) {
         logger.debug("Beautified: "+json.toString());
 
-        return new ResponseEntity<>("Beautified JSON", HttpStatus.OK);
+        return new ResponseEntity<>(json, HttpStatus.OK);
     }
 
     @GetMapping("/custom/beautify")
-    public ResponseEntity<String> customBeautifyJSON(@RequestBody Map<String, Object> json,
+    public ResponseEntity<Map<String, Object>> customBeautifyJSON(@RequestBody Map<String, Object> json,
         @RequestParam(value="transformations", defaultValue="tabs, newlines, spaces") String[] transformations) {
 
-        logger.debug("Beautified: "+json.toString());
-        logger.debug("Params"+Arrays.toString(transformations));
+        logger.debug("Beautified with params: "+json.toString());
+        logger.debug("Params: "+Arrays.toString(transformations));
 
-        return new ResponseEntity<>("Beautified JSON", HttpStatus.OK);
+        return new ResponseEntity<>(json, HttpStatus.OK);
     }
 }
