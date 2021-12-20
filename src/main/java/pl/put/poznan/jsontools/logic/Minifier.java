@@ -14,14 +14,14 @@ public class Minifier extends JSONModifier {
 
         ObjectMapper mapper = new ObjectMapper();
 
-        String beautified = null;
+        String minified = null;
 
         try {
-            beautified = mapper.writeValueAsString(body);
+            minified = mapper.writeValueAsString(body);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
 
-        return beautified;
+        return minified;
     }
 }
