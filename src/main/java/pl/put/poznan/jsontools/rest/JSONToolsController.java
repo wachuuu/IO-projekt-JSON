@@ -20,7 +20,7 @@ public class JSONToolsController {
 
     @GetMapping("/minify")
     public ResponseEntity<String> minifyJSON(@RequestBody Map<String, Object> json) {
-        modifier = new Minifier(json.toString());
+        modifier = new Minifier(json);
         String output = modifier.modify();
 
         logger.debug("Minified: " + json.toString());
@@ -30,10 +30,10 @@ public class JSONToolsController {
 
     @GetMapping("/beautify")
     public ResponseEntity<String> beautifyJSON(@RequestBody Map<String, Object> json) {
-        modifier = new Beautifier(json.toString());
+        modifier = new Beautifier(json);
         String output = modifier.modify();
 
-        logger.debug("Beautified: " + json.toString());
+        logger.debug("Beautified: " + output);
 
         return new ResponseEntity<>(output, HttpStatus.OK);
     }
@@ -41,7 +41,7 @@ public class JSONToolsController {
     @GetMapping("/custom/beautify")
     public ResponseEntity<String> customBeautifyJSON(@RequestBody Map<String, Object> json,
                                                                   @RequestParam(value = "transformations", defaultValue = "tabs, newlines, spaces") String[] transformations) {
-        modifier = new CustomBeautifier(json.toString(), transformations);
+        modifier = new CustomBeautifier(json, transformations);
         String output = modifier.modify();
 
         logger.debug("Beautified with params: " + json.toString());
