@@ -8,7 +8,6 @@ import java.util.Map;
 /**
  * Beautifier takes a JSON file and returns a string in a beautified, easier to read format with proper indentation and whitespaces
  *
- * @param body - a JSON body on which the beautification is to be performed
  */
 
 public class Beautifier extends JSONModifier {

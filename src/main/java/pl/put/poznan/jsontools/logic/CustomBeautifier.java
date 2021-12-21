@@ -10,8 +10,6 @@ import java.util.Map;
  * Beautifier takes a JSON file and returns a string in a chosen format.
  * A user can choose whether he wants to use tabs, newlines or spaces.
  *
- * @param body - a JSON body on which the operations are to be performed
- * @param String[] params - a string lsit of parameters (tabs, newlines, spaces)
  */
 
 public class CustomBeautifier extends JSONModifier {
