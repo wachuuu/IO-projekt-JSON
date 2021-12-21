@@ -5,13 +5,25 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.Map;
 
+/**
+ * Beautifier takes a JSON file and returns a string in a beautified, easier to read format with proper indentation and whitespaces
+ *
+ */
+
 public class Beautifier extends JSONModifier {
     public Beautifier(Map<String, Object> body) {
         super(body);
     }
 
+    /**
+     * modify takes a JSON body and returns a beautified version of it
+     *
+     * @return String beautified - a prettier, more readable text version of the JSON with
+     *                             proper whitespaces and indentation
+     */
+
     public String modify() {
-        //System.out.println(body.toString());
+
         ObjectMapper mapper = new ObjectMapper();
 
         String beautified = null;
@@ -20,7 +32,7 @@ public class Beautifier extends JSONModifier {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        //String beautified = "aaa";
+
         return beautified;
     }
 }
