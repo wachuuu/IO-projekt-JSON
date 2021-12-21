@@ -5,10 +5,23 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.Map;
 
+/**
+ * Minifier takes a JSON file and returns a string in a minimized format - without any whitespaces.
+ *
+ */
+
 public class Minifier extends JSONModifier {
+
     public Minifier(Map<String, Object> body) {
         super(body);
     }
+
+
+    /**
+     * modify takes a JSON body and returns a whitespace-less version of it
+     *
+     * @return String minified - a string without whitespaces
+     */
 
     public String modify() {
 
