@@ -40,11 +40,11 @@ public class JSONToolsController {
 
     @GetMapping("/custom/beautify")
     public ResponseEntity<String> customBeautifyJSON(@RequestBody Map<String, Object> json,
-                                                                  @RequestParam(value = "transformations", defaultValue = "tabs, newlines, spaces") String[] transformations) {
+                                                     @RequestParam String[] transformations) {
         modifier = new CustomBeautifier(json, transformations);
         String output = modifier.modify();
 
-        logger.debug("Beautified with params: " + json.toString());
+        logger.debug("Beautified with params: " + output);
         logger.debug("Params: " + Arrays.toString(transformations));
 
         return new ResponseEntity<>(output, HttpStatus.OK);
