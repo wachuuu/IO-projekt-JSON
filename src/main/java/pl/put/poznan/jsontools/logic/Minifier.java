@@ -8,6 +8,7 @@ import java.util.Map;
 /**
  * Minifier takes a JSON file and returns a string in a minimized format - without any whitespaces.
  *
+ * @param body - a JSON body on which the minification is to be performed
  */
 
 public class Minifier extends JSONModifier {

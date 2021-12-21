@@ -6,11 +6,26 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.Map;
 
+/**
+ * Beautifier takes a JSON file and returns a string in a chosen format.
+ * A user can choose whether he wants to use tabs, newlines or spaces.
+ *
+ * @param body - a JSON body on which the operations are to be performed
+ * @param String[] params - a string lsit of parameters (tabs, newlines, spaces)
+ */
+
 public class CustomBeautifier extends JSONModifier {
 
     public CustomBeautifier(Map<String, Object> body, String[] params) {
         super(body, params);
     }
+
+    /**
+     * modify takes a JSON body and returns a custom version on it depending on which parameters were given in the constructor
+     *
+     * @return String beautified - a prettier, more readable text version of the JSON with
+     *                             proper whitespaces and indentation
+     */
 
     public String modify() {
 
