@@ -49,4 +49,31 @@ public class JSONToolsController {
 
         return new ResponseEntity<>(output, HttpStatus.OK);
     }
+
+    @GetMapping("/to-yaml")
+    public ResponseEntity<String> jsonToYAML(@RequestBody Map<String, Object> json) {
+
+        String output = json.toString();
+        logger.debug("Transformed to YAML: " + output);
+
+        return new ResponseEntity<>(output, HttpStatus.OK);
+    }
+
+    @GetMapping("/to-xml")
+    public ResponseEntity<String> jsonToXML(@RequestBody Map<String, Object> json) {
+
+        String output = json.toString();
+        logger.debug("Transformed to XML: " + output);
+
+        return new ResponseEntity<>(output, HttpStatus.OK);
+    }
+
+    @GetMapping("/to-csv")
+    public ResponseEntity<String> jsonToCSV(@RequestBody Map<String, Object> json) {
+
+        String output = json.toString();
+        logger.debug("Transformed to CSV: " + output);
+
+        return new ResponseEntity<>(output, HttpStatus.OK);
+    }
 }
