@@ -62,7 +62,9 @@ public class JSONToolsController {
     @GetMapping("/to-xml")
     public ResponseEntity<String> jsonToXML(@RequestBody Map<String, Object> json) {
 
-        String output = json.toString();
+        XMLTransformer transformer = new XMLTransformer(json);
+        String output = transformer.modify();
+
         logger.debug("Transformed to XML: " + output);
 
         return new ResponseEntity<>(output, HttpStatus.OK);
