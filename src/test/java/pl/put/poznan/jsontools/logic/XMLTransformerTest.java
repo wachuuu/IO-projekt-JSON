@@ -47,12 +47,12 @@ class XMLTransformerTest {
         xmlMapper.configure(ToXmlGenerator.Feature.WRITE_XML_1_1, true);
 
         String xml = xmlMapper.writeValueAsString(this.json);
-        String expected = "<?xml version='1.1' encoding='UTF-8'?>\r\n" +
-                "<HashMap>\r\n" +
-                "  <name1>\r\n" +
-                "    <name2>value2</name2>\r\n" +
-                "  </name1>\r\n" +
-                "</HashMap>\r\n";
+        String expected = "<?xml version='1.1' encoding='UTF-8'?>\n" +
+                "<HashMap>\n" +
+                "  <name1>\n" +
+                "    <name2>value2</name2>\n" +
+                "  </name1>\n" +
+                "</HashMap>\n";
 
         assertEquals(expected, xml);
     }
@@ -67,10 +67,10 @@ class XMLTransformerTest {
         xmlMapper.configure(ToXmlGenerator.Feature.WRITE_XML_1_1, true);
 
         String xml = xmlMapper.writeValueAsString(this.json);
-        String expected = "<?xml version='1.1' encoding='UTF-8'?>\r\n" +
-                "<HashMap>\r\n" +
-                "  <text>xxxx</text>\r\n" +
-                "</HashMap>\r\n";
+        String expected = "<?xml version='1.1' encoding='UTF-8'?>\n" +
+                "<HashMap>\n" +
+                "  <text>xxxx</text>\n" +
+                "</HashMap>\n";
 
         assertEquals(expected, xml);
     }
