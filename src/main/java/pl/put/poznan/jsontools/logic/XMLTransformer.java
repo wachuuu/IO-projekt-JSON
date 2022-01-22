@@ -9,16 +9,14 @@ import java.util.Map;
 
 public class XMLTransformer extends JSONModifier {
 
-    public XMLTransformer(Map<String, Object> body) {
+    private XmlMapper xmlMapper;
+
+    public XMLTransformer(Map<String, Object> body, XmlMapper xmlMapper) {
         super(body);
+        this.xmlMapper = xmlMapper;
     }
 
     public String modify() {
-        XmlMapper xmlMapper = new XmlMapper();
-        xmlMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-        xmlMapper.configure(ToXmlGenerator.Feature.WRITE_XML_DECLARATION, true);
-        xmlMapper.configure(ToXmlGenerator.Feature.WRITE_XML_1_1, true);
-
         String xml = null;
         try{
             xml = xmlMapper.writeValueAsString(body);

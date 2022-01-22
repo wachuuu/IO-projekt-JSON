@@ -6,8 +6,6 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 
 import static org.mockito.Mockito.*;
 
@@ -31,7 +29,9 @@ class XMLTransformerTest {
         when(xmlMapper.writeValueAsString(this.json)).thenReturn("<?xml version='1.1' encoding='UTF-8'?>\n"
                 + "<LinkedHashMap/>");
 
-        String xml = xmlMapper.writeValueAsString(this.json);
+        XMLTransformer xmlTransformer = new XMLTransformer(this.json, xmlMapper);
+
+        String xml = xmlTransformer.modify();
         assertEquals("<?xml version='1.1' encoding='UTF-8'?>\n<LinkedHashMap/>", xml);
     }
 
@@ -46,7 +46,8 @@ class XMLTransformerTest {
         xmlMapper.configure(ToXmlGenerator.Feature.WRITE_XML_DECLARATION, true);
         xmlMapper.configure(ToXmlGenerator.Feature.WRITE_XML_1_1, true);
 
-        String xml = xmlMapper.writeValueAsString(this.json);
+        XMLTransformer xmlTransformer = new XMLTransformer(this.json, xmlMapper);
+        String xml = xmlTransformer.modify();
         String expected = "<?xml version='1.1' encoding='UTF-8'?>\n" +
                 "<HashMap>\n" +
                 "  <name1>\n" +
@@ -58,7 +59,7 @@ class XMLTransformerTest {
     }
 
     @Test
-    void modifyJson() throws JsonProcessingException {
+    void modifyOnePropertyJson() throws JsonProcessingException {
         this.json.put("text", "xxxx");
 
         XmlMapper xmlMapper = new XmlMapper();
@@ -66,7 +67,8 @@ class XMLTransformerTest {
         xmlMapper.configure(ToXmlGenerator.Feature.WRITE_XML_DECLARATION, true);
         xmlMapper.configure(ToXmlGenerator.Feature.WRITE_XML_1_1, true);
 
-        String xml = xmlMapper.writeValueAsString(this.json);
+        XMLTransformer xmlTransformer = new XMLTransformer(this.json, xmlMapper);
+        String xml = xmlTransformer.modify();
         String expected = "<?xml version='1.1' encoding='UTF-8'?>\n" +
                 "<HashMap>\n" +
                 "  <text>xxxx</text>\n" +
@@ -76,40 +78,48 @@ class XMLTransformerTest {
     }
 
     @Test
-    void modifyPlainText() throws JsonProcessingException {
-        String plainText = "this is some text";
+    void modifyManyPropertiesJson() throws JsonProcessingException {
+        this.json.put("text", "xxxx");
+        this.json.put("text2", "xxxx");
+        this.json.put("text3", "xxxx");
+
+        String e = "<?xml version='1.1' encoding='UTF-8'?>\n" +
+                "<HashMap>\n" +
+                "  <text>xxxx</text>\n" +
+                "  <text2>xxxx</text2>\n" +
+                "  <text3>xxxx</text3>\n" +
+                "</HashMap>";
 
         XmlMapper xmlMapper = mock(XmlMapper.class);
-        when(xmlMapper.writeValueAsString(anyString())).thenAnswer(
-            new Answer() {
-                public Object answer(InvocationOnMock invocation) {
-                    Object[] args = invocation.getArguments();
-                    return "<String>"+args[0].toString()+"</String>";
-            }});
+        when(xmlMapper.writeValueAsString(this.json)).thenReturn(e);
 
-        String expected = "<String>this is some text</String>";
+        XMLTransformer xmlTransformer = new XMLTransformer(this.json, xmlMapper);
 
-        String xml = xmlMapper.writeValueAsString(plainText);
-        assertEquals(expected, xml);
+        String xml = xmlTransformer.modify();
+        assertEquals(e, xml);
     }
 
     @Test
-    void modifyJsonAsString() throws JsonProcessingException {
-        this.json.put("name", "value");
+    void modifyManyPropertiesNestedJson() throws JsonProcessingException {
+        Map<String, Object> subObj = new HashMap<>();
+        subObj.put("text3", "value3");
+        this.json.put("text1", "value1");
+        this.json.put("text2", subObj);
 
-        String jsonAsString = this.json.toString();
+        String e = "<?xml version='1.1' encoding='UTF-8'?>\n" +
+                "<HashMap>\n" +
+                "  <text1>value1</text1>\n" +
+                "  <text2>\n" +
+                "    <text3>value3</text3>\n" +
+                "  </text2>\n" +
+                "</HashMap>";
 
         XmlMapper xmlMapper = mock(XmlMapper.class);
-        when(xmlMapper.writeValueAsString(anyString())).thenAnswer(
-                new Answer() {
-                    public Object answer(InvocationOnMock invocation) {
-                        Object[] args = invocation.getArguments();
-                        return "<String>"+args[0].toString()+"</String>";
-                    }});
+        when(xmlMapper.writeValueAsString(this.json)).thenReturn(e);
 
-        String expected = "<String>{name=value}</String>";
+        XMLTransformer xmlTransformer = new XMLTransformer(this.json, xmlMapper);
 
-        String xml = xmlMapper.writeValueAsString(jsonAsString);
-        assertEquals(expected, xml);
+        String xml = xmlTransformer.modify();
+        assertEquals(e, xml);
     }
 }

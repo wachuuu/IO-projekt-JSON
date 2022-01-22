@@ -1,5 +1,8 @@
 package pl.put.poznan.jsontools.rest;
 
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -62,7 +65,12 @@ public class JSONToolsController {
     @GetMapping("/to-xml")
     public ResponseEntity<String> jsonToXML(@RequestBody Map<String, Object> json) {
 
-        XMLTransformer transformer = new XMLTransformer(json);
+        XmlMapper xmlMapper = new XmlMapper();
+        xmlMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
+        xmlMapper.configure(ToXmlGenerator.Feature.WRITE_XML_DECLARATION, true);
+        xmlMapper.configure(ToXmlGenerator.Feature.WRITE_XML_1_1, true);
+
+        XMLTransformer transformer = new XMLTransformer(json, xmlMapper);
         String output = transformer.modify();
 
         logger.debug("Transformed to XML: " + output);
