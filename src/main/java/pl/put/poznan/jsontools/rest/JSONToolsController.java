@@ -79,7 +79,7 @@ public class JSONToolsController {
     }
 
     @GetMapping("/delete-keys")
-    public ResponseEntity<String> DeleteKeysJSON(@RequestBody Map<String, Object> json,
+    public ResponseEntity<String> deleteKeysJSON(@RequestBody Map<String, Object> json,
                                             @RequestParam String[] params) {
 
         modifier = new KeyDelete(json, params);
