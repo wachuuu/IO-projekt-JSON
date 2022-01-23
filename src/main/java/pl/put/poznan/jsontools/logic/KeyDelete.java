@@ -18,9 +18,6 @@ public class KeyDelete extends JSONModifier {
         for (int i = 0; i < params.length; i++) {
             body.remove(params[i]);
         }
-        for (Map.Entry<String, Object> entry : body.entrySet()) {
-            System.out.println(entry.getKey() + ":" + entry.getValue());
-        }
         String transformed = null;
         try {
             transformed= mapper.writeValueAsString(body);
