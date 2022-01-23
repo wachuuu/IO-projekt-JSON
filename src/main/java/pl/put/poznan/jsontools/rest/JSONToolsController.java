@@ -78,11 +78,13 @@ public class JSONToolsController {
         return new ResponseEntity<>(output, HttpStatus.OK);
     }
 
-    @GetMapping("/to-csv")
-    public ResponseEntity<String> jsonToCSV(@RequestBody Map<String, Object> json) {
+    @GetMapping("/delete-keys")
+    public ResponseEntity<String> DeleteKeysJSON(@RequestBody Map<String, Object> json,
+                                            @RequestParam String[] params) {
 
-        String output = json.toString();
-        logger.debug("Transformed to CSV: " + output);
+        modifier = new KeyDelete(json, params);
+        String output = modifier.modify();
+        logger.debug("Transformed JSON: " + output);
 
         return new ResponseEntity<>(output, HttpStatus.OK);
     }
