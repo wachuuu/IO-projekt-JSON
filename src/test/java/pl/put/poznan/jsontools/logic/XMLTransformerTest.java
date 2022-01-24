@@ -36,7 +36,7 @@ class XMLTransformerTest {
     }
 
     @Test
-    void modifyNestedJson() throws JsonProcessingException {
+    void modifyNestedJson() {
         Map<String, Object> subObj = new HashMap<>();
         subObj.put("name2", "value2");
         this.json.put("name1", subObj);
@@ -48,18 +48,18 @@ class XMLTransformerTest {
 
         XMLTransformer xmlTransformer = new XMLTransformer(this.json, xmlMapper);
         String xml = xmlTransformer.modify();
-        String expected = "<?xml version='1.1' encoding='UTF-8'?>\n" +
-                "<HashMap>\n" +
-                "  <name1>\n" +
-                "    <name2>value2</name2>\n" +
-                "  </name1>\n" +
-                "</HashMap>\n";
+        String expected = "<?xml version='1.1' encoding='UTF-8'?>" + System.lineSeparator() +
+                "<HashMap>" + System.lineSeparator() +
+                "  <name1>" + System.lineSeparator() +
+                "    <name2>value2</name2>" + System.lineSeparator() +
+                "  </name1>" + System.lineSeparator() +
+                "</HashMap>" + System.lineSeparator();
 
         assertEquals(expected, xml);
     }
 
     @Test
-    void modifyOnePropertyJson() throws JsonProcessingException {
+    void modifyOnePropertyJson() {
         this.json.put("text", "xxxx");
 
         XmlMapper xmlMapper = new XmlMapper();
@@ -69,10 +69,10 @@ class XMLTransformerTest {
 
         XMLTransformer xmlTransformer = new XMLTransformer(this.json, xmlMapper);
         String xml = xmlTransformer.modify();
-        String expected = "<?xml version='1.1' encoding='UTF-8'?>\n" +
-                "<HashMap>\n" +
-                "  <text>xxxx</text>\n" +
-                "</HashMap>\n";
+        String expected = "<?xml version='1.1' encoding='UTF-8'?>" + System.lineSeparator() +
+                "<HashMap>" + System.lineSeparator() +
+                "  <text>xxxx</text>" + System.lineSeparator() +
+                "</HashMap>" + System.lineSeparator();
 
         assertEquals(expected, xml);
     }

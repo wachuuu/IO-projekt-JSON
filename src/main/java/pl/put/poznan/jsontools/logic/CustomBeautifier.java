@@ -3,6 +3,7 @@ package pl.put.poznan.jsontools.logic;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.util.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 
 import java.util.Map;
 
@@ -14,8 +15,19 @@ import java.util.Map;
 
 public class CustomBeautifier extends JSONModifier {
 
+    private ObjectMapper mapper;
+    private ObjectWriter writer;
+
     public CustomBeautifier(Map<String, Object> body, String[] params) {
         super(body, params);
+        mapper = new ObjectMapper();
+        writer = mapper.writer(new DefaultPrettyPrinter());
+    }
+
+    public CustomBeautifier(Map<String, Object> body, String[] params, ObjectMapper m, ObjectWriter w) {
+        super(body, params);
+        mapper = m;
+        writer = w;
     }
 
     /**
@@ -28,8 +40,6 @@ public class CustomBeautifier extends JSONModifier {
     public String modify() {
 
         Boolean tabs = false, newlines = false, spaces = false;
-
-        ObjectMapper mapper = new ObjectMapper();
         String result = null;
 
         for (String i : params){
@@ -47,7 +57,7 @@ public class CustomBeautifier extends JSONModifier {
             DefaultPrettyPrinter printer = new DefaultPrettyPrinter();
             if (spaces){
                 try {
-                    result = mapper.writer(printer).writeValueAsString(body);
+                    result = writer.writeValueAsString(body);
                 } catch (JsonProcessingException e) {
                     e.printStackTrace();
                 }
