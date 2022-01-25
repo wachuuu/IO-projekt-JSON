@@ -2,6 +2,7 @@ package pl.put.poznan.jsontools.logic;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 
 import java.util.Map;
 
@@ -11,8 +12,16 @@ import java.util.Map;
  */
 
 public class Beautifier extends JSONModifier {
+    private ObjectWriter writer;
+
     public Beautifier(Map<String, Object> body) {
         super(body);
+        writer = new ObjectMapper().writerWithDefaultPrettyPrinter();
+    }
+
+    public Beautifier(Map<String, Object> body, ObjectWriter w) {
+        super(body);
+        writer = w;
     }
 
     /**
@@ -24,11 +33,9 @@ public class Beautifier extends JSONModifier {
 
     public String modify() {
 
-        ObjectMapper mapper = new ObjectMapper();
-
         String beautified = null;
         try {
-            beautified = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(body);
+            beautified = writer.writeValueAsString(body);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
