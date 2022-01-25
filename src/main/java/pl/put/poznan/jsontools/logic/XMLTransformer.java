@@ -7,6 +7,10 @@ import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
 
 import java.util.Map;
 
+/** XMLTransformer takes a JSON file and returns a string in an XML format.
+ *
+ */
+
 public class XMLTransformer extends JSONModifier {
 
     private XmlMapper xmlMapper;
@@ -15,6 +19,12 @@ public class XMLTransformer extends JSONModifier {
         super(body);
         this.xmlMapper = xmlMapper;
     }
+
+    /**
+     * modify takes a JSON body and returns a string in an XML format
+     *
+     * @return String xml - string in XML format
+     */
 
     public String modify() {
         String xml = null;
